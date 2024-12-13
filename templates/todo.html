@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ToDo List{% endblock %}
+{% block content %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .table th {
+        background-color: #333;
+        color: #fff;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f4f4f4;
+    }
+
+    .form-check-label {
+        font-weight: bold;
+    }
+
+    .btn-outline-info,
+    .btn-outline-danger,
+    .btn-outline-success {
+        padding: 5px 10px;
+        font-size: 14px;
+        border-radius: 4px;
+    }
+
+    .btn-outline-info {
+        background-color: #17a2b8;
+        color: #fff;
+        border: 1px solid #17a2b8;
+    }
+
+    .btn-outline-info:hover {
+        background-color: #138496;
+        border-color: #138496;
+    }
+
+    .btn-outline-danger {
+        background-color: #dc3545;
+        color: #fff;
+        border: 1px solid #dc3545;
+    }
+
+    .btn-outline-danger:hover {
+        background-color: #c82333;
+        border-color: #c82333;
+    }
+
+    .btn-outline-success {
+        background-color: #28a745;
+        color: #fff;
+        border: 1px solid #28a745;
+    }
+
+    .btn-outline-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    textarea.form-control {
+        height: 150px;
+    }
+
+    legend {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container">
+    {% if todos %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todos %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ todo.title }}</td>
+                <td>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="todo_{{ todo.pk }}" {% if todo.is_finished %} checked {% endif %} disabled>
+                        <label for="todo_{{ todo.pk }}" class="form-check-label">
+                            {% if todo.is_finished %}
+                                Completed
+                            {% else %}
+                                Pending
+                            {% endif %}
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    <form action="{% url 'delete_todo' todo.pk %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger" type="submit">Delete</button>
+                    </form>
+                    <form action="{% url 'update_todo' todo.pk %}" method="GET" style="display:inline;">
+                        <button class="btn btn-outline-success" type="submit">Update</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h4>No todos found! Create some.</h4>
+    {% endif %}
+</div>
+
+<div class="container">
+    <form method="POST" action="{% url 'create_todo' %}">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Create Todo</legend>
+            <div class="form-group">
+                <input type="text" name="title" class="form-control" placeholder="Enter title" required>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Create</button>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,26 @@
+<section class="search-section">
+    <h2>Search Articles in Wikipedia</h2>
+    <p>Enter the search query to obtain in results</p>
+    <b>Enter without any space</b>
+
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" name="search_query" class="search-input" placeholder="enter search query">
+            <input type="submit" value="Submit" class="search-btn">
+        </form>
+    </div>
+    <div class="container">
+        <div class="content-section p-0 mt-5">
+            <a href="{{link}}" class="p-0 m-0" target="_blank">
+                <div class="custom-header">
+                    <h2>{{title}}</h2>
+                    <h6>{{link}}</h6>
+                </div>
+            </a>
+            <hr class="p-0 m-0">
+            <p class="description m-5 p-5">{{details}}</p>
+        </div>
+    </div>
+
+</section>

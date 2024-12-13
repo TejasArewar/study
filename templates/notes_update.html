@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Update Note{% endblock %}
+{% block content %}
+
+<style>
+    .container {
+        max-width: 100%;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        background-color: #ebebeb;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #5cb85c;
+        box-shadow: 0px 0px 5px rgba(92, 184, 92, 0.5);
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 18px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-outline-info {
+        color: #5bc0de;
+        border-color: #5bc0de;
+    }
+
+    .btn-outline-info:hover {
+        background-color: #32e6bc;
+        color: #fff;
+    }
+
+    .btn-outline-info:focus {
+        box-shadow: 0 0 0 0.2rem rgba(91, 192, 222, 0.5);
+    }
+
+    legend {
+        font-size: 24px;
+        font-weight: bold;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container">
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Update Note</legend>
+    </fieldset>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" class="form-control" value="{{ note.title }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" class="form-control" required>{{ note.description }}</textarea>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">
+                Update
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}
